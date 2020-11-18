@@ -5,6 +5,12 @@ import java.util.Date;
 
 public class Stationnement {
 
+    public Stationnement(Voiture myCar, Garage myGarage, Date fin) {
+        this.myCar = myCar;
+        this.myGarage = myGarage;
+        this.fin = fin;
+    }
+
 	private final Voiture myCar;
 	private final Garage myGarage;
 

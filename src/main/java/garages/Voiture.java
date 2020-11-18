@@ -5,9 +5,17 @@ import java.util.*;
 
 public class Voiture {
 
+    public Voiture(String immatriculation, List<Stationnement> dernierStationnements) {
+        this.immatriculation = immatriculation;
+        this.dernierStationnements = dernierStationnements;
+    }
+
+    
+
 	private final String immatriculation;
 	private final List<Stationnement> myStationnements = new LinkedList<>();
-
+        private List<Stationnement> dernierStationnements;
+        
 	public Voiture(String i) {
 		if (null == i) {
 			throw new IllegalArgumentException("Une voiture doit avoir une immatriculation");
@@ -44,6 +52,7 @@ public class Voiture {
 		// TODO: Implémenter cette méthode
 		// Trouver le dernier stationnement de la voiture
 		// Terminer ce stationnement
+                dernierStationnements=(List<Stationnement>) myStationnements.get(myStationnements.size()-1);
 	}
 
 	/**
@@ -58,10 +67,25 @@ public class Voiture {
 	 * @return vrai si la voiture est dans un garage, faux sinon
 	 */
 	public boolean estDansUnGarage() {
+        if (myStationnements.size()-1==-1){
+                return false;}
+            
+            Stationnement Laststa=myStationnements.get(myStationnements.size()-1);
+            if(Laststa.estEnCours()){
+                return true;
+            }else
+                return false;}
 		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+            
+            
+   
+                
+              
+        }
+
+
 		// Vrai si le dernier stationnement est en cours
-	}
+	
 
 	/**
 	 * Pour chaque garage visité, imprime le nom de ce garage suivi de la liste des dates d'entrée / sortie dans ce
@@ -77,9 +101,25 @@ public class Voiture {
 	 *
 	 * @param out l'endroit où imprimer (ex: System.out)
 	 */
+
 	public void imprimeStationnements(PrintStream out) {
 		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
-	}
-
+	LinkedList<Stationnement> stationnements= new LinkedList<>(myStationnements);
+        
+        for(int i=0; i<stationnements.size();i++){
+            String garage=stationnements.get(i).getGarage().toString();
+            out.append(garage+"\n");
+            out.append(stationnements.get(i).toString()+"\n");
+            
+        for(int j=i+1; i<stationnements.size();j++){
+            if (stationnements.get(j).getGarage()==stationnements.get(i).getGarage()){
+                out.append(stationnements.get(j).toString()+"\n");
+                stationnements.remove(stationnements.get(j));
+            }
+        }
+     
 }
+}   
+        }
+    
+       
