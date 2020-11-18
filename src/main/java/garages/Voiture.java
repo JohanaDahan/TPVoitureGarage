@@ -4,17 +4,9 @@ import java.io.PrintStream;
 import java.util.*;
 
 public class Voiture {
-
-    public Voiture(String immatriculation, List<Stationnement> dernierStationnements) {
-        this.immatriculation = immatriculation;
-        this.dernierStationnements = dernierStationnements;
-    }
-
-    
-
-	private final String immatriculation;
+        private final String immatriculation;
 	private final List<Stationnement> myStationnements = new LinkedList<>();
-        private List<Stationnement> dernierStationnements;
+        
         
 	public Voiture(String i) {
 		if (null == i) {
@@ -37,7 +29,10 @@ public class Voiture {
 	 */
 	public void entreAuGarage(Garage g) throws Exception {
 		// Et si la voiture est déjà dans un garage ?
-		Stationnement s = new Stationnement(this, g);
+		if (this.estDansUnGarage()==true){
+                    throw new illegalArgumentException("la voiture est déja dans un garage");
+                }else;
+                Stationnement s = new Stationnement(this, g);
 		myStationnements.add(s);
 	}
 
@@ -48,11 +43,15 @@ public class Voiture {
 	 * @throws java.lang.Exception si la voiture n'est pas dans un garage
 	 */
 	public void sortDuGarage() throws Exception {
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		if (this.estDansUnGarage()==true){
+                    Stationnement Laststa= myStationnements.get(myStationnements.size()-1);
+                    Laststa.terminer();
+                }else
+                throw new illegalArgumentException("la voiture n'est pas dans un garage");
 		// TODO: Implémenter cette méthode
 		// Trouver le dernier stationnement de la voiture
 		// Terminer ce stationnement
-                dernierStationnements=(List<Stationnement>) myStationnements.get(myStationnements.size()-1);
+               
 	}
 
 	/**
@@ -60,8 +59,12 @@ public class Voiture {
 	 */
 	public Set<Garage> garagesVisites() {
 		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
-	}
+		HashSet<Garage> garVis = new HashSet<Garage>();
+                for (Stationnement s: myStationnements){
+                    garVis.add(s.getGarage());
+                }
+                return garVis;
+        }
 
 	/**
 	 * @return vrai si la voiture est dans un garage, faux sinon
@@ -70,11 +73,11 @@ public class Voiture {
         if (myStationnements.size()-1==-1){
                 return false;}
             
-            Stationnement Laststa=myStationnements.get(myStationnements.size()-1);
-            if(Laststa.estEnCours()){
-                return true;
-            }else
-                return false;}
+        Stationnement Laststa=myStationnements.get(myStationnements.size()-1);
+        if(Laststa.estEnCours()){
+            return true;
+        }else
+            return false;   }
 		// TODO: Implémenter cette méthode
             
             
